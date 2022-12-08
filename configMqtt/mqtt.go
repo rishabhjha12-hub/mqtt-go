@@ -63,18 +63,18 @@ func MqttConfig() {
 		//at a maximum qos(quality of service) of zero, wait for the receipt to confirm the subscription
 
 		//qos reference = https://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels/
-		// if token1 := client.Subscribe(constants.Gate+constants.Jetson_ANPR, 0, HandleMessage); token1.Wait() && token1.Error() != nil {
-		// 	//panic(token1.Error())
-		// 	log.Println(token1.Error())
-		// }
+		if token1 := client.Subscribe(constants.Gate+constants.Jetson_ANPR, 0, HandleMessage); token1.Wait() && token1.Error() != nil {
+			//panic(token1.Error())
+			log.Println(token1.Error())
+		}
 		if token2 := client.Subscribe(constants.Gate+constants.Parkzap_epc, 0, HandleMessage); token2.Wait() && token2.Error() != nil {
 			// panic(token2.Error())
 			log.Println(token2.Error())
 		}
-		// if token3 := client.Subscribe(constants.Gate+constants.Parkzap_loop, 0, HandleMessage); token3.Wait() && token3.Error() != nil {
-		// 	//panic(token3.Error())
-		// 	log.Println(token3.Error())
-		// }
+		if token3 := client.Subscribe(constants.Gate+constants.Parkzap_loop, 0, HandleMessage); token3.Wait() && token3.Error() != nil {
+			//panic(token3.Error())
+			log.Println(token3.Error())
+		}
 	}
 
 	//creating a mqtt client
@@ -83,10 +83,10 @@ func MqttConfig() {
 	//making connection
 	if token4 := client.Connect(); token4.Wait() && token4.Error() != nil {
 		//panic(token4.Error())
-		log.Fatal(token4.Error())
+		log.Fatal("error is ", token4.Error())
 
 	} else {
-		fmt.Printf("Connected to server\n")
+		log.Printf("Connected to server\n")
 	}
 
 	//Error handling /retry
