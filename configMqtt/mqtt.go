@@ -52,7 +52,9 @@ func MqttConfig() {
 	channel := make(chan os.Signal, constants.No_channels)
 	signal.Notify(channel, os.Interrupt, syscall.SIGTERM)
 	//Connect to mqtt
-	opts := MQTT.NewClientOptions().AddBroker(constants.Broker_Protocol + constants.BrokerIpp + ":" + constants.Brokerport)
+	// opts := MQTT.NewClientOptions().AddBroker(constants.Broker_Protocol + constants.BrokerIpp + ":" + constants.Brokerport)
+	//for testing
+	opts := MQTT.NewClientOptions().AddBroker("tcp://172.27.0.103:8883")
 
 	//setting defualt publish handler
 	opts.SetDefaultPublishHandler(HandleMessage)

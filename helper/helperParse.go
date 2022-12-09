@@ -12,6 +12,7 @@ import (
 
 var Epc_ID string
 var Plaza_ID string
+var Code interface{}
 
 func ParseHelper(myslice []byte) {
 	// Declared an empty interface
@@ -20,7 +21,10 @@ func ParseHelper(myslice []byte) {
 	// Unmarshal or Decode the JSON to the interface.
 	json.Unmarshal([]byte(myslice), &result)
 	fmt.Println("message type code", result["message_type_code"])
+
 	code := result["message_type_code"]
+	Code = code
+
 	//distributing the code according to message codes
 	if code == constants.Parkzap_Msg_Code {
 		log.Println("topic : Parkzap")
