@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"log"
 
+	configepcstatus "rishabhjha12-hub/configEpcStatus"
 	"rishabhjha12-hub/constants"
-	//"rishabhjha12-hub/fastagserver"
 	"rishabhjha12-hub/utils"
+	//"rishabhjha12-hub/fastagserver"
 )
 
 var Epc_ID string
@@ -36,6 +37,7 @@ func ParseHelper(myslice []byte) {
 		utils.GET_FROM_REDIS(constants.Epc_key)
 		Epc_ID = message_body2
 		Plaza_ID = message_body11
+		configepcstatus.GetEpc(Epc_ID, Plaza_ID)
 		//fastagserver.Fastagserver()
 
 	} else if code == constants.Jetson_Msg_Code {

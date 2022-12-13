@@ -20,6 +20,7 @@ func SentryConfig() {
 	})
 	if err != nil {
 		log.Fatalf("sentry.Init: %s", err)
+		sentry.CaptureException(err)
 	}
 	// Flush buffered events before the program terminates.
 	defer sentry.Flush(2 * time.Second)

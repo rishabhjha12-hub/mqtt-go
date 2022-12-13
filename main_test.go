@@ -4,7 +4,6 @@ import (
 	configmqtt "rishabhjha12-hub/configMqtt"
 	config "rishabhjha12-hub/configRedis"
 	configsentry "rishabhjha12-hub/configSentry"
-	"rishabhjha12-hub/fastagserver"
 	"rishabhjha12-hub/utils"
 	"testing"
 	"time"
@@ -23,10 +22,10 @@ func TestConfigSentry(t *testing.T) {
 	configsentry.SentryConfig()
 }
 
-func TestFastagServer(t *testing.T) {
-	fastagserver.Fastagserver()
-}
-
 func TestMqtt(t *testing.T) {
 	configmqtt.MqttConfig()
 }
+
+// func TestFastagServer(t *testing.T) {
+// 	fastagserver.Fastagserver()
+// }

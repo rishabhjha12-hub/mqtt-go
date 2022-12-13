@@ -4,11 +4,17 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
+
+	//"io/ioutil"
+	"log"
 	"net/http"
+
 	"rishabhjha12-hub/constants"
-	"rishabhjha12-hub/helper"
+	//"rishabhjha12-hub/helper"
 	"rishabhjha12-hub/utils"
+	//"github.com/getsentry/sentry-go"
+	//"github.com/getsentry/sentry-go"
 )
 
 type myStruct struct {
@@ -16,12 +22,14 @@ type myStruct struct {
 	Plzaza string `json:"plaza_id"`
 }
 
-func Fastagserver() {
+func Fastagserver(Epckey string, PlazaKey string) {
 
+	//url := constants.Fastag_Status_Url
+	//for testing
 	url := "https://uat.fastag.ai/api/v2/icd2.5/fastag_status/"
 	method := "POST"
-	Epckey := helper.Epc_ID
-	PlazaKey := helper.Plaza_ID
+	// Epckey := helper.Epc_ID
+	// PlazaKey := helper.Plaza_ID
 
 	//references:https://stackoverflow.com/questions/66842959/submit-variable-in-payload-of-golang-http-newrequest
 	myData := myStruct{
@@ -35,7 +43,8 @@ func Fastagserver() {
 	req, err := http.NewRequest(method, url, payload)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
+		//sentry.CaptureException(err)
 		return
 	}
 	req.Header.Add("Authorization", "token 40103c4819c39f878fc68ed8af2191e07d07dca6")
@@ -44,13 +53,17 @@ func Fastagserver() {
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
+		//sentry.CaptureException(err)
 		return
 	}
 	defer res.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	// body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
+
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
+
 		return
 	}
 	fmt.Println(string(body))
