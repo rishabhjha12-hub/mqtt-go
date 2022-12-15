@@ -22,8 +22,13 @@ type myStruct struct {
 	Plzaza string `json:"plaza_id"`
 }
 
+var CheckedList []string
+var PendingList []string
+
 func Fastagserver(Epckey string, PlazaKey string) {
 
+	//for testing
+	//time.Sleep(5 * time.Minute)
 	//url := constants.Fastag_Status_Url
 	//for testing
 	url := "https://uat.fastag.ai/api/v2/icd2.5/fastag_status/"
@@ -67,7 +72,10 @@ func Fastagserver(Epckey string, PlazaKey string) {
 		return
 	}
 	fmt.Println(string(body))
-	utils.SET_FROM_REDIS("fastag_status", string(body), constants.Redis_time_out)
+
+	utils.SET_FROM_REDIS(Epckey, string(body), constants.Redis_time_out)
+	CheckedList = append(CheckedList, Epckey)
+
 	//utils.GET_FROM_REDIS("fastag_status")
 
 }

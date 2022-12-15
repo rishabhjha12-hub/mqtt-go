@@ -70,11 +70,12 @@ func MqttConfig() {
 		// 	//panic(token1.Error())
 		// 	log.Println(token1.Error())
 		// }
-		if token2 := client.Subscribe(constants.Gate+constants.Parkzap_epc, 0, HandleMessage); token2.Wait() && token2.Error() != nil {
+		if token := client.Subscribe(constants.Gate+constants.Parkzap_epc, 0, HandleMessage); token.Wait() && token.Error() != nil {
 			// panic(token2.Error())
-			log.Println(token2.Error())
+			log.Println(token.Error())
 			//sentry.CaptureException(token2.Error())
 		}
+
 		// if token3 := client.Subscribe(constants.Gate+constants.Parkzap_loop, 0, HandleMessage); token3.Wait() && token3.Error() != nil {
 		// 	//panic(token3.Error())
 		// 	log.Println(token3.Error())
@@ -86,9 +87,9 @@ func MqttConfig() {
 	client := MQTT.NewClient(opts)
 
 	//making connection
-	if token4 := client.Connect(); token4.Wait() && token4.Error() != nil {
+	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		//panic(token4.Error())
-		log.Fatal("error is ", token4.Error())
+		log.Fatal("error is ", token.Error())
 		//sentry.CaptureException(token4.Error())
 
 	} else {

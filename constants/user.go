@@ -37,3 +37,6 @@ const Loop_key string = "LOOP"
 
 // The sample rate for sampling traces in the range [0.0, 1.0].
 const TracesSampleRate float64 = 1.0
+
+// length of Epc
+const LenEpc int = 24
