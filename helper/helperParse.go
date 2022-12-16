@@ -15,7 +15,7 @@ var Epc_ID string
 var Plaza_ID string
 var Code interface{}
 
-func ParseHelper(myslice []byte) {
+func ParseHelper(myslice []byte) interface{} {
 	// Declared an empty interface
 	var result map[string]interface{}
 
@@ -67,5 +67,5 @@ func ParseHelper(myslice []byte) {
 	} else {
 		log.Println("topic : other")
 	}
-
+	return code
 }

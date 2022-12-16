@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 
+	//"time"
+
 	//"io/ioutil"
 	"log"
 	"net/http"
@@ -24,8 +26,11 @@ type myStruct struct {
 
 var CheckedList []string
 var PendingList []string
+var AwaitingList []string
 
 func Fastagserver(Epckey string, PlazaKey string) {
+	utils.SET_FROM_REDIS_ARRAY("CheckedList", CheckedList, constants.Redis_time_out)
+	AwaitingList = append(AwaitingList, Epckey)
 
 	//for testing
 	//time.Sleep(5 * time.Minute)

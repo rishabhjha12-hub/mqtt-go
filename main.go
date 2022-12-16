@@ -19,10 +19,4 @@ func main() {
 
 	configmqtt.MqttConfig()
 
-	//hit fastag server
-
-	// if helper.Code == constants.Parkzap_Msg_Code {
-	// 	fastagserver.Fastagserver()
-
-	// }
 }

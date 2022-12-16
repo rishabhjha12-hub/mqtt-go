@@ -13,9 +13,9 @@ func SentryConfig() {
 
 	//sentry
 	err := sentry.Init(sentry.ClientOptions{
-		Dsn: "https://69c6e82b1f544d63980fca02d6d2485d@sentry.parkzap.com/18",
+		Dsn: constants.SentryDsn,
 
-		ServerName:       "172.27.15.2",
+		ServerName:       constants.SentryServer,
 		TracesSampleRate: constants.TracesSampleRate,
 	})
 	if err != nil {

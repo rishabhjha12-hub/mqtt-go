@@ -37,8 +37,8 @@ var connectLostHandler MQTT.ConnectionLostHandler = func(client MQTT.Client, err
 
 	//after 5 seconds try to reconnect
 	time.AfterFunc(5*time.Second, func() {
-		if token5 := client.Connect(); token5.Wait() && token5.Error() != nil {
-			panic(token5.Error())
+		if token := client.Connect(); token.Wait() && token.Error() != nil {
+			panic(token.Error())
 
 		} else {
 			fmt.Printf("Connected to server\n")
@@ -66,9 +66,9 @@ func MqttConfig() {
 		//at a maximum qos(quality of service) of zero, wait for the receipt to confirm the subscription
 
 		//qos reference = https://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels/
-		// if token1 := client.Subscribe(constants.Gate+constants.Jetson_ANPR, 0, HandleMessage); token1.Wait() && token1.Error() != nil {
+		// if token := client.Subscribe(constants.Gate+constants.Jetson_ANPR, 0, HandleMessage); token.Wait() && token.Error() != nil {
 		// 	//panic(token1.Error())
-		// 	log.Println(token1.Error())
+		// 	log.Println(token.Error())
 		// }
 		if token := client.Subscribe(constants.Gate+constants.Parkzap_epc, 0, HandleMessage); token.Wait() && token.Error() != nil {
 			// panic(token2.Error())
@@ -76,9 +76,9 @@ func MqttConfig() {
 			//sentry.CaptureException(token2.Error())
 		}
 
-		// if token3 := client.Subscribe(constants.Gate+constants.Parkzap_loop, 0, HandleMessage); token3.Wait() && token3.Error() != nil {
+		// if token := client.Subscribe(constants.Gate+constants.Parkzap_loop, 0, HandleMessage); token.Wait() && token.Error() != nil {
 		// 	//panic(token3.Error())
-		// 	log.Println(token3.Error())
+		// 	log.Println(token.Error())
 		// 	//sentry.CaptureException(token3.Error())
 		// }
 	}

@@ -30,11 +30,19 @@ func GetEpc(Epc string, plaza string) {
 
 			} else {
 
-				//for testing
-				log.Println("going in")
-				go fastagserver.Fastagserver(Epc, plaza)
-				//for testing
-				log.Println("going out")
+				if slices.Contains(fastagserver.AwaitingList, Epc) {
+					//save time stamps
+					utils.SET_FROM_REDIS("lEpc", time.Now().String(), constants.Redis_time_out)
+
+				} else {
+					//for testing
+					log.Println("going in")
+					go fastagserver.Fastagserver(Epc, plaza)
+					fastagserver.PendingList = append(fastagserver.PendingList, Epc)
+					//for testing
+					log.Println("going out")
+
+				}
 
 			}
 
