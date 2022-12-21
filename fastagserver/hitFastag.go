@@ -28,7 +28,7 @@ var CheckedList []string
 var PendingList []string
 var AwaitingList []string
 
-func Fastagserver(Epckey string, PlazaKey string) {
+func Fastagserver(Epckey string, PlazaKey string) string {
 	utils.SET_FROM_REDIS_ARRAY("CheckedList", CheckedList, constants.Redis_time_out)
 	AwaitingList = append(AwaitingList, Epckey)
 
@@ -55,7 +55,7 @@ func Fastagserver(Epckey string, PlazaKey string) {
 	if err != nil {
 		log.Println(err)
 		//sentry.CaptureException(err)
-		return
+		//return
 	}
 	req.Header.Add("Authorization", "token 40103c4819c39f878fc68ed8af2191e07d07dca6")
 	req.Header.Add("Content-Type", "application/json")
@@ -64,7 +64,7 @@ func Fastagserver(Epckey string, PlazaKey string) {
 	if err != nil {
 		fmt.Println(err)
 		//sentry.CaptureException(err)
-		return
+		//return
 	}
 	defer res.Body.Close()
 
@@ -74,13 +74,13 @@ func Fastagserver(Epckey string, PlazaKey string) {
 	if err != nil {
 		log.Println(err)
 
-		return
+		//return
 	}
 	fmt.Println(string(body))
 
 	utils.SET_FROM_REDIS(Epckey, string(body), constants.Redis_time_out)
 	CheckedList = append(CheckedList, Epckey)
-
+	return string(body)
 	//utils.GET_FROM_REDIS("fastag_status")
 
 }

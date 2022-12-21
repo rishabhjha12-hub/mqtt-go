@@ -9,7 +9,7 @@ import (
 	"github.com/getsentry/sentry-go"
 )
 
-func SentryConfig() {
+func SentryConfig() bool {
 
 	//sentry
 	err := sentry.Init(sentry.ClientOptions{
@@ -22,9 +22,11 @@ func SentryConfig() {
 		log.Fatalf("sentry.Init: %s", err)
 		sentry.CaptureException(err)
 	}
+
 	// Flush buffered events before the program terminates.
 	defer sentry.Flush(2 * time.Second)
 
 	sentry.CaptureMessage("It works!!")
+	return err != nil
 
 }

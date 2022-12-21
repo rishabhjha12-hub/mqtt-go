@@ -7,20 +7,22 @@ import (
 	config "rishabhjha12-hub/configRedis"
 	configsentry "rishabhjha12-hub/configSentry"
 	"rishabhjha12-hub/constants"
+	"rishabhjha12-hub/fastagserver"
 	"rishabhjha12-hub/helper"
 	"rishabhjha12-hub/utils"
 	"testing"
 	"time"
 
-	"github.com/alicebob/miniredis/v2"
-	"github.com/gomodule/redigo/redis"
 	"github.com/stretchr/testify/assert"
 	//"github.com/stretchr/testify/assert"
 )
 
+// this will test the redis configuration
 func TestRedis(t *testing.T) {
 	config.RedisConfig()
 }
+
+// this functon will try to set the value of keyss=50 and then check if the value of the keyss is nil or not nil if it will be nil then it will throw an error
 func TestGetterSetter(t *testing.T) {
 	utils.SET_FROM_REDIS("keyss", "50", 100*time.Second)
 	utils.GET_FROM_REDIS("keyss")
@@ -33,11 +35,14 @@ func TestGetterSetter(t *testing.T) {
 	}
 
 }
+
+// test sentry configuration
 func TestConfigSentry(t *testing.T) {
 	configsentry.SentryConfig()
 }
 
-func TestUnmarshalAndPrint(t *testing.T) {
+// it runs the function which listen to mqtt and the response
+func TestUnmarshalAndCheckResponse(t *testing.T) {
 	t.Run("testing unmarshalAndPrint", func(t *testing.T) {
 
 		myjson := ` {
@@ -51,48 +56,22 @@ func TestUnmarshalAndPrint(t *testing.T) {
 	}`
 
 		val := helper.ParseHelper([]byte(myjson))
-		assert.Equal(t, val, constants.Parkzap_Msg_Code, "jk")
+		assert.Equal(t, val, constants.Parkzap_Msg_Code, "should be equal")
 
 		fmt.Println("*******======", val)
 	})
 }
+
+// this function will test configuration of mqtt
 func TestMqtt(t *testing.T) {
 	configmqtt.MqttConfig()
 }
 
-// reference  https://github.com/alicebob/miniredis
-func TestRediss(t *testing.T) {
-	s := miniredis.RunT(t)
-
-	// Optionally set some keys your code expects:
-	s.Set("foo", "bar")
-	s.HSet("some", "other", "key")
-
-	// Run your code and see if it behaves.
-	// An example using the redigo library from "github.com/gomodule/redigo/redis":
-	c, err := redis.Dial("tcp", s.Addr())
-
-	_, err = c.Do("SET", "foo", "bar")
-	if err != nil {
-		panic(err)
-	}
-
-	// Optionally check values in redis...
-	if got, err := s.Get("foo"); err != nil || got != "bar" {
-		t.Error("'foo' has the wrong value")
-	}
-	// ... or use a helper for that:
-	s.CheckGet(t, "foo", "bar")
-
-	// TTL and expiration:
-	s.Set("foo", "bar")
-	s.SetTTL("foo", 10*time.Second)
-	s.FastForward(11 * time.Second)
-	if s.Exists("foo") {
-		t.Fatal("'foo' should not have existed anymore")
-	}
+// this function will hit fastag server with epc key and plaza id and compare the actual response with the response coming from the function
+func TestFastagServer(t *testing.T) {
+	Epckey := "34161FA8203288AC05FF4500"
+	Plaza_ID := "15"
+	val := fastagserver.Fastagserver(Epckey, Plaza_ID)
+	myres := `{"response_id": 201, "bank_id": null, "epc_id": "34161FA8203288AC05FF4500", "t_id": "", "vehicle_number": "", "blacklist_status": true, "chassis_number": "", "vehicle_class": "", "is_commercial": "F", "status_code": 400, "tag_history_vehicle": null}`
+	assert.Equal(t, string(myres), val, "should be equal")
 }
-
-// func TestFastagServer(t *testing.T) {
-// 	fastagserver.Fastagserver()
-// }
